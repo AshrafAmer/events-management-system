@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("./../include/header.ejs") %>
+    </head>
+
+    <body>
+        <%- include("./../include/publicNavbar.ejs") %>
+
+        <h1 class="site-heading text-center text-white d-none d-lg-block">
+            <span class="site-heading-upper text-primary mb-3"
+                >ITI Events Control Management System</span
+            >
+            <span class="site-heading-lower">ITI Events CMS</span>
+        </h1>
+        <section class="page-section clearfix">
+            <div class="container">
+                <div class="intro">
+                    <img
+                        class="intro-img img-fluid mb-3 mb-lg-0 rounded"
+                        src="img/conference.jpg"
+                        alt="conference login image"
+                    />
+                    <div
+                        class="intro-text left-0 text-center bg-faded p-5 rounded"
+                    >
+                        <h2 class="section-heading mb-4">
+                            <span class="section-heading-upper"
+                                >Login To Our System</span
+                            >
+                            <span class="section-heading-lower">speakers</span>
+                        </h2>
+                        <form
+                            class="needs-validation"
+                            method="post"
+                            action="/login"
+                            novalidate
+                        >
+                            <div class="form-check form-row">
+                                <div class="form-check-inline col-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span
+                                                class="input-group-text"
+                                                id="inputGroupPrepend"
+                                                ><i class="fa fa-user"></i
+                                            ></span>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            name="userName"
+                                            value="<%- userName %>"
+                                            placeholder="user name"
+                                            class="form-control"
+                                            id="validationCustomUsername3"
+                                            aria-describedby="inputGroupPrepend"
+                                            required
+                                        />
+                                        <div class="invalid-feedback">
+                                            Please enter your username.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-check-inline mt-3 mb-3 col-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span
+                                                class="input-group-text"
+                                                id="inputGroupPrepend"
+                                                ><i class="fa fa-lock"></i
+                                            ></span>
+                                        </div>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            placeholder="password"
+                                            class="form-control"
+                                            id="validationCustomUsername4"
+                                            aria-describedby="inputGroupPrepend"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <small>
+                                    <%- error %>
+                                </small>
+                            </div>
+                            <div class="intro-button mx-auto">
+                                <button
+                                    class="btn btn-primary btn-xl"
+                                    type="submit"
+                                >
+                                    Login Now
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include("./../include/footer.ejs") %>
+    </body>
+</html>

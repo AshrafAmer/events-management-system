@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("./../include/header.ejs") %>
+    </head>
+
+    <body>
+        <%- include("./../include/navbar.ejs") %>
+
+        <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div
+                        class="col-xl-12 mx-auto p-1"
+                        style="border:solid 3px rgba(255, 255, 255, 0.85); border-radius: 25px;"
+                    >
+                        <div class="cta-inner text-center rounded">
+                            <h2 class="section-heading mb-5">
+                                <span class="section-heading-upper"
+                                    >Come On In</span
+                                >
+                                <span class="section-heading-lower"
+                                    >Coming ITI events</span
+                                >
+                                <span>
+                                    <a
+                                        class="btn btn-dark btn-outline-info text-white"
+                                        data-toggle="modal"
+                                        data-target="#eventAddModal"
+                                        >Add New event</a
+                                    >
+                                </span>
+                            </h2>
+                            <table class="table table-striped dtDataTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Main Speaker</th>
+                                        <th scope="col">Other Speakers</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(let i = 0; i< eventsData.length;
+                                    i++){ if(eventsData[i].mainSpeaker != null)
+                                    { %>
+                                    <tr>
+                                        <th scope="row">
+                                            <%= eventsData[i]._id %>
+                                        </th>
+                                        <td><%= eventsData[i].title %></td>
+                                        <td>
+                                            <%=
+                                            eventsData[i].mainSpeaker.fullName
+                                            %>
+                                        </td>
+                                        <td>
+                                            <% for(let j = 0; j <
+                                            eventsData[i].otherSpeakers.length;
+                                            j++){ %>
+                                            <p>
+                                                <%=
+                                                eventsData[i].otherSpeakers[j].fullName
+                                                %>
+                                            </p>
+                                            <% } %>
+                                        </td>
+
+                                        <td>
+                                            <%=
+                                            Intl.DateTimeFormat('en-US',{year:'numeric',
+                                            month: 'short', day:
+                                            '2-digit'}).format(eventsData[i].eventDate)
+                                            %>
+                                        </td>
+                                        <td>
+                                            <a
+                                                class="btn btn-light"
+                                                data-toggle="modal"
+                                                data-target="#eventUpdateModal"
+                                                data-title="<%= JSON.stringify(eventsData[i]) %>"
+                                                >update
+                                            </a>
+                                            <button
+                                                class="btn btn-danger"
+                                                onclick="eventRemove(<%= eventsData[i]._id %>, this);"
+                                            >
+                                                delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <% } } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include("./../include/footer.ejs") %> <%-
+        include("eventUpdateModal.ejs") %> <%- include("eventAddModal.ejs") %>
+
+        <script>
+            function eventRemove(id, btn) {
+                $.ajax({
+                    url: "http://localhost:8085/events/delete",
+                    method: "post",
+                    contentType: "Application/json",
+                    data: JSON.stringify({ _id: id }),
+                    dataType: "text",
+                    success(data) {
+                        $(btn)
+                            .parents("tr")
+                            .remove();
+                    },
+                    error(error) {
+                        console.log(error);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("./../include/header.ejs") %>
+</head>
+
+<body>
+    <%- include("./../include/navbar.ejs") %>
+
+    <section class="page-section cta">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 mx-auto p-1"
+                    style="border:solid 3px rgba(255, 255, 255, 0.85); border-radius: 25px;">
+                    <div class="cta-inner text-center rounded">
+                        <h2 class="section-heading mb-5">
+                            <span class="section-heading-upper">Come On In</span>
+                            <span class="section-heading-lower">Coming ITI events</span>
+                        </h2>
+                        <table class="table table-striped dtDataTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Speaker Name</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(let i = 0; i< speakers.length;
+                                    i++){ %>
+                                <tr>
+                                    <th scope="row">
+                                        <%= speakers[i]._id %>
+                                    </th>
+                                    <td>
+                                        <a href="profile/<%= speakers[i]._id %>">
+                                            <%=
+                                        speakers[i].fullName
+                                            %>
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <%=
+                                        speakers[i].address.city
+                                            %> ,
+                                        <%=
+                                        speakers[i].address.street 
+                                            %>
+                                        st ,
+                                        <%=
+                                        speakers[i].address.building 
+                                            %>
+                                        building
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-light" data-toggle="modal" data-target="#speakerUpdateModal"
+                                            data-title="<%= JSON.stringify(speakers[i]) %>">update
+                                        </a>
+                                        <button class="btn btn-danger"
+                                            onclick="speakersRemove(<%= speakers[i]._id %>, this);">
+                                            delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include("./../include/footer.ejs") %>
+    <%- include("speakersUpdateModal.ejs") %>
+    <script>
+        function speakersRemove(id, btn) {
+            $.ajax({
+                url: "http://localhost:8085/speakers/delete",
+                method: "post",
+                contentType: "Application/json",
+                data: JSON.stringify({ _id: id }),
+                dataType: "text",
+                success(data) {
+                    $(btn).parents("tr").remove();
+                },
+                error(error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!-- Update Modal -->
+<div
+    class="modal fade"
+    id="eventAddModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="eventAddModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventAddModalLabel"></h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="add" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="_id">Event ID</label>
+                        <input
+                            type="number"
+                            min="1"
+                            name="_id"
+                            class="form-control"
+                            aria-describedby="event title"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Event Title</label>
+                        <input
+                            type="text"
+                            name="title"
+                            class="form-control"
+                            aria-describedby="event title"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Event Date</label>
+                        <input
+                            type="date"
+                            name="eventDate"
+                            class="form-control"
+                            aria-describedby="event date"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mainSpeaker">Event Main Speaker</label>
+                        <select
+                            name="mainSpeaker"
+                            class="browser-default custom-select"
+                            required
+                        >
+                            <option>Choose Main Speaker</option>
+                            <% Allspeakers.forEach(item => { %>
+                            <option value="<%= item._id %>"
+                                ><%= item.fullName %></option
+                            >
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otherSpeakers"
+                            >Event Other Speakers [Ctrl+click]</label
+                        >
+                        <select
+                            name="otherSpeakers"
+                            class="custom-select"
+                            multiple
+                        >
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Add New Event
+                    </button>
+                </div>
+            </form>
+
+            <script>
+                $(function() {
+                    $("#eventAddModal").on("show.bs.modal", function(event) {
+                        <% Allspeakers.forEach(item => { %>
+                            $(this).find("select[name=otherSpeakers]").append("<option value='<%= item._id %>'><%= item.fullName %></option>");
+                        <% }); %>
+                    });
+
+                    $("select[name=mainSpeaker]").change(function(){
+                        $("select[name=otherSpeakers]").text("");
+                        <% Allspeakers.forEach(item => { %>
+                            if($(this).val() != "<%= item.id %>")
+                                $("select[name=otherSpeakers]").append("<option value='<%= item._id %>'><%= item.fullName %></option>");
+                        <% }); %>
+                    });
+                }); //load
+            </script>
+        </div>
+    </div>
+</div>

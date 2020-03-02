@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("./../include/header.ejs") %>
+    </head>
+
+    <body>
+        <%- include("./../include/publicNavbar.ejs") %>
+
+        <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div
+                        class="col-xl-9 mx-auto p-2 m-5"
+                        style="border:solid 3px rgba(255, 255, 255, 0.85); border-radius: 25px;"
+                    >
+                        <div class="cta-inner text-center rounded">
+                            <h2 class="section-heading mb-5">
+                                <span class="section-heading-upper"
+                                    >Register as Speaker</span
+                                >
+                                <span class="section-heading-lower"
+                                    >CMS ITI events</span
+                                >
+                            </h2>
+                            <form action="/register" method="post" class="m-5" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <p class="text-danger h3"><%= RegisterError %></p>
+                                    <input
+                                        type="hidden"
+                                        value="<%= _idValue %>"
+                                        name="_id"
+                                        class="form-control"
+                                        required
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input
+                                        type="text"
+                                        name="fullName"
+                                        class="form-control"
+                                        aria-describedby="Speaker Full Name"
+                                        required
+                                    />
+                                    <small
+                                        id="fullNameError"
+                                        class="form-text text-danger"
+                                    >
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userName">username</label>
+                                    <input
+                                        type="text"
+                                        name="userName"
+                                        class="form-control"
+                                        aria-describedby="Speaker User Name"
+                                        required
+                                    />
+                                    <small
+                                        id="usernameError"
+                                        class="form-text text-danger"
+                                    >
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">password</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        class="form-control"
+                                        aria-describedby="Speaker password"
+                                        required
+                                    />
+                                    <small
+                                        id="passwordError"
+                                        class="form-text text-danger"
+                                    >
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="image">Profile image</label>
+                                    <input
+                                        type="file"
+                                        name="image"
+                                        class="form-control"
+                                        id="image"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Speaker Address</label>
+                                    <input
+                                        type="text"
+                                        name="address.city"
+                                        class="form-control"
+                                        id="city"
+                                        placeholder="City"
+                                        required
+                                    />
+                                    <small
+                                        id="cityError"
+                                        class="form-text text-danger"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <input
+                                        type="number"
+                                        name="address.street"
+                                        class="form-control"
+                                        id="street"
+                                        placeholder="Street Number"
+                                        required
+                                        min="0"
+                                    />
+                                    <small
+                                        id="streetError"
+                                        class="form-text text-danger"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <input
+                                        type="number"
+                                        name="address.building"
+                                        class="form-control"
+                                        id="building"
+                                        placeholder="Building Number"
+                                        min="0"
+                                        required
+                                    />
+                                    <small
+                                        id="buildingError"
+                                        class="form-text text-danger"
+                                    >
+                                </div>
+
+                                    <div class="form-group">
+                                        <button
+                                            type="submit"
+                                            id="submit"
+                                            class="btn btn-primary"
+                                        >
+                                            Register Now
+                                        </button>
+                                        <small
+                                            id="submitMessage"
+                                            class="form-text text-muted h5"
+                                        >
+                                            Fill all required fields first to
+                                            open register button...
+                                        </small>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include("./../include/footer.ejs") %>
+
+        <script>
+            $("#submit").prop("disabled", true);
+
+            // Validat full name input ==> Just characters a-z and A-Z
+            $("input[name=fullName]").focusout(function() {
+                if (/^[a-zA-Z ]*$/.test($(this).val()) == false) {
+                    $("#fullNameError").text(
+                        "your name must be characters ONLY"
+                    );
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                } else {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    $("#fullNameError").text("");
+                    enableSubmit();
+                }
+            });
+
+            // Validat user name input ==> Just characters, numbers and _
+            $("input[name=userName]").focusout(function() {
+                if (/^\w+$/.test($(this).val()) == false) {
+                    $("#usernameError").text(
+                        "user name must be characters, Numbers, and ONLY '_'"
+                    );
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                } else {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    $("#usernameError").text("");
+                    enableSubmit();
+                }
+            });
+
+            // Validat password input ==> Just characters and _
+            $("input[name=password]").focusout(function() {
+                if (/^\w+$/.test($(this).val()) == false) {
+                    $("#passwordError").text(
+                        "password must be characters, Numbers, and ONLY '_'"
+                    );
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                } else {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    $("#passwordError").text("");
+                    enableSubmit();
+                }
+            });
+
+            // Validat city input ==> Only characters
+            $("#city").focusout(function() {
+                if (/^[A-Za-z]+$/.test($(this).val()) == false) {
+                    $("#cityError").text(
+                        "city must be Only characters"
+                    );
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                } else {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    $("#cityError").text(""); 
+                    enableSubmit();
+
+                }
+            });
+
+            // Validat street input ==> Only characters
+            $("#street").focusout(function() {
+                if (/^[0-9]+$/.test($(this).val()) == false || Number($(this).val()) <= 0) {
+                    $("#streetError").text(
+                        "Street must be Only Numbers > 0"
+                    );
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                } else {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    $("#streetError").text("");
+                    enableSubmit();
+                }
+            });
+
+            // Validat street input ==> Only characters
+            $("#building").focusout(function() {
+                if (/^[0-9]+$/.test($(this).val()) == false || Number($(this).val()) <= 0) {
+                    $("#buildingError").text(
+                        "building must be Only Numbers > 0"
+                    );
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                } else {
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                    $("#buildingError").text("");
+                    enableSubmit();
+                }
+            });
+
+            function enableSubmit()
+            {
+                if( $("input[name=_id]").val() > 0 &&
+                    $("input[name=fullName]").hasClass("is-valid") &&
+                    $("input[name=userName]").hasClass("is-valid") &&
+                    $("input[name=password]").hasClass("is-valid") &&
+                    $("#city").hasClass("is-valid") &&
+                    $("#street").hasClass("is-valid") &&
+                    $("#building").hasClass("is-valid")
+                ) // check validation
+                {
+                    $("#submitMessage").text("Submit Now...");
+                    $("#submit").prop("disabled", false);
+                }
+                else
+                {
+                    console.log("worked");
+                }
+            }
+        </script>
+    </body>
+</html>

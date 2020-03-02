@@ -1,0 +1,133 @@
+<!-- Update Modal -->
+<div
+    class="modal fade"
+    id="eventUpdateModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="eventUpdateModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventUpdateModalLabel"></h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="update" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="_id" name="_id" />
+                    <div class="form-group">
+                        <label for="title">Event Title</label>
+                        <input
+                            type="text"
+                            name="title"
+                            class="form-control"
+                            id="title"
+                            aria-describedby="event title"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Event Date</label>
+                        <input
+                            type="date"
+                            name="eventDate"
+                            class="form-control"
+                            id="date"
+                            aria-describedby="event date"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mainSpeaker">Event Main Speaker</label>
+                        <select
+                            id="mainSpeaker"
+                            name="mainSpeaker"
+                            class="browser-default custom-select"
+                            required
+                        >
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otherSpeakers"
+                            >Event Other Speakers [Ctrl+click]</label
+                        >
+                        <select
+                            name="otherSpeakers"
+                            id="otherSpeakers"
+                            class="custom-select"
+                            multiple
+                        >
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Update Event
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#eventUpdateModal").on("show.bs.modal", function(event) {
+        let button = $(event.relatedTarget); // Button that triggered the modal
+        let eventObject = button.data("title"); // Extract info from data-* attributes
+        let modal = $(this);
+        modal
+            .find(".modal-title")
+            .text("Update " + eventObject.title + " event Data");
+
+        modal.find("#_id").val(eventObject._id);
+        modal.find("#title").val(eventObject.title);
+
+        let dt = new Date(eventObject.eventDate);
+        let day = ("0" + dt.getDate()).slice(-2);
+        let month = ("0" + (dt.getMonth() + 1)).slice(-2);
+        let date = dt.getFullYear() + "-" + month + "-" + day;
+        modal.find("#date").val(date);
+
+        $("select[name=mainSpeaker]").text("");
+        $("select[name=otherSpeakers]").text("");
+        <% Allspeakers.forEach(item => { %>
+            if(eventObject.mainSpeaker._id != "<%= item.id %>")
+                $("select[name=mainSpeaker]").append("<option value='<%= item._id %>'><%= item.fullName %></option>");
+            else
+                $("select[name=mainSpeaker]").append("<option selected value='<%= item._id %>'><%= item.fullName %></option>");
+        <% }); %>
+
+        for (let i = 0; i < eventObject.otherSpeakers.length; i++) {
+
+            <% Allspeakers.forEach(item => { %>
+                if(eventObject.otherSpeakers[i]._id != "<%= item._id %>")
+                    $("select[name=otherSpeakers]").append("<option value='<%= item._id %>'><%= item.fullName %></option>");
+                else
+                    $("select[name=otherSpeakers]").append("<option selected value='<%= item._id %>'><%= item.fullName %></option>");
+            <% }); %>
+
+        }
+
+
+
+
+    });
+</script>

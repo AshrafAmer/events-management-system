@@ -1,0 +1,129 @@
+<!-- Update Modal -->
+<div
+    class="modal fade"
+    id="updateSpeakerProfile"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="updateSpeakerProfileLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateSpeakerProfileLabel"></h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form
+                action="/speakers/editProfile"
+                method="post"
+                enctype="multipart/form-data"
+            >
+                <div class="modal-body">
+                    <input type="hidden" id="_id" name="_id" />
+                    <div class="form-group">
+                        <label for="fullName">Speaker Full Name</label>
+                        <input
+                            type="text"
+                            name="fullName"
+                            class="form-control"
+                            id="fullName"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">Profile image</label>
+                        <input
+                            type="file"
+                            name="image"
+                            class="form-control"
+                            id="image"
+                        />
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="password">change password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            id="password"
+                        />
+                    </div> -->
+
+                    <div class="form-group">
+                        <label for="address">City</label>
+                        <input
+                            type="text"
+                            name="address.city"
+                            class="form-control"
+                            id="city"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Street</label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="address.street"
+                            class="form-control"
+                            id="street"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Building</label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="address.building"
+                            class="form-control"
+                            id="building"
+                        />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Update Data
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#updateSpeakerProfile").on("show.bs.modal", function(event) {
+        let button = $(event.relatedTarget); // Button that triggered the modal
+        let speakerObject = button.data("title"); // Extract info from data-* attributes
+        let modal = $(this);
+
+        // console.log(speakerObject);
+
+        modal
+            .find(".modal-title")
+            .text("Update " + speakerObject.fullName + " Data");
+
+        modal.find("#_id").val(speakerObject._id);
+        modal.find("#fullName").val(speakerObject.fullName);
+        modal.find("#city").val(speakerObject.address.city);
+        modal.find("#street").val(speakerObject.address.street);
+        modal.find("#building").val(speakerObject.address.building);
+    });
+</script>

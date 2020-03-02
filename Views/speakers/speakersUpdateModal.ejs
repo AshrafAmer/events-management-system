@@ -1,0 +1,100 @@
+<!-- Update Modal -->
+<div
+    class="modal fade"
+    id="speakerUpdateModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="speakerUpdateModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="speakerUpdateModalLabel"></h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="update" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="_id" name="_id" />
+                    <div class="form-group">
+                        <label for="fullName">Speaker Full Name</label>
+                        <input
+                            type="text"
+                            name="fullName"
+                            class="form-control"
+                            id="fullName"
+                            aria-describedby="event title"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Speaker Address</label>
+                        <input
+                            type="text"
+                            name="address.city"
+                            class="form-control"
+                            id="city"
+                            aria-describedby="event title"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <input
+                            type="number"
+                            name="address.street"
+                            class="form-control"
+                            id="street"
+                            aria-describedby="event title"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <input
+                            type="number"
+                            name="address.building"
+                            class="form-control"
+                            id="building"
+                            aria-describedby="event title"
+                        />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Update Speaker
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#speakerUpdateModal").on("show.bs.modal", function(event) {
+        let button = $(event.relatedTarget); // Button that triggered the modal
+        let eventObject = button.data("title"); // Extract info from data-* attributes
+        let modal = $(this);
+        modal
+            .find(".modal-title")
+            .text("Update " + eventObject.fullName + " Data");
+
+        modal.find("#_id").val(eventObject._id);
+        modal.find("#fullName").val(eventObject.fullName);
+        modal.find("#city").val(eventObject.address.city);
+        modal.find("#street").val(eventObject.address.street);
+        modal.find("#building").val(eventObject.address.building);
+    });
+</script>

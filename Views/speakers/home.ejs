@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("./../include/header.ejs") %>
+    </head>
+
+    <body>
+        <%- include("./../include/navbar.ejs") %>
+
+        <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div
+                        class="col-xl-12 mx-auto p-1"
+                        style="border:solid 3px rgba(255, 255, 255, 0.85); border-radius: 25px;"
+                    >
+                        <div class="cta-inner text-center rounded">
+                            <h2 class="section-heading mb-5">
+                                <span class="section-heading-upper"
+                                    >Come On In</span
+                                >
+                                <span class="section-heading-lower"
+                                    >Coming ITI events</span
+                                >
+                            </h2>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Main Speaker</th>
+                                        <th scope="col">Other Speakers</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(let i = 0; i< eventsData.length;
+                                    i++){ %>
+                                    <tr>
+                                        <th scope="row">
+                                            <%= eventsData[i]._id %>
+                                        </th>
+                                        <td><%= eventsData[i].title %></td>
+                                        <td>
+                                            <%=
+                                            eventsData[i].mainSpeaker.fullName
+                                            %>
+                                        </td>
+                                        <td>
+                                            <% for(let j = 0; j <
+                                            eventsData[i].otherSpeakers.length;
+                                            j++){ %>
+                                            <p>
+                                                <%=
+                                                eventsData[i].otherSpeakers[j].fullName
+                                                %>
+                                            </p>
+                                            <% } %>
+                                        </td>
+
+                                        <td>
+                                            <%=
+                                            Intl.DateTimeFormat('en-US',{year:'numeric',
+                                            month: 'short', day:
+                                            '2-digit'}).format(eventsData[i].eventDate)
+                                            %>
+                                        </td>
+
+                                        <td>
+                                            <button
+                                                class="btn btn-danger"
+                                                onclick="eventDecline(<%= eventsData[i]._id %>, <%= eventsData[i].mainSpeaker._id %>, this);"
+                                            >
+                                                Decline
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include("./../include/footer.ejs") %>
+        <script>
+            function eventDecline(id, mainID, btn) {
+                $.ajax({
+                    url: "http://localhost:8085/events/decline",
+                    method: "post",
+                    contentType: "Application/json",
+                    data: JSON.stringify({ event_id: id, main_speaker: mainID ,user_id: <%= user_id %>}),
+                    dataType: "text",
+                    success(data) {
+                        $(btn)
+                            .parents("tr")
+                            .remove();
+                    },
+                    error(error) {
+                        console.log(error);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

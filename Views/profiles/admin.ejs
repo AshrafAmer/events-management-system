@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("./../include/header.ejs") %>
+</head>
+
+<body>
+    <%- include("./../include/navbar.ejs") %>
+
+    <section class="page-section cta">
+        <div class="container">
+            <div class="row">
+                <div class="col-8 mx-auto p-1" style="border:solid 3px rgba(255, 255, 255, 0.85); border-radius: 25px;">
+                    <div class="cta-inner text-center rounded">
+                        <div class="box box-primary">
+                            <div class="box-body box-profile">
+                                <img class="img-responsive img-circle" style="border-radius: 50%;" src="/img/admin.jpg"
+                                    alt="User profile picture">
+
+                                <h3 class="profile-username text-center mt-2">Admin</h3>
+
+                                <p class="text-muted text-center">ITI events CMS Administrator</p>
+
+                                <ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item text-center">
+                                        <b>City</b> <span class="ml-2">EL-Mansoura</span>
+                                    </li>
+                                    <li class="list-group-item text-center">
+                                        <b>Street</b> <span class="ml-5">543</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Building</b> <span class="ml-5">12A</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include("./../include/footer.ejs") %>
+</body>
+
+</html>
